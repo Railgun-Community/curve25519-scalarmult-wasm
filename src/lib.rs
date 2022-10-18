@@ -25,7 +25,7 @@ fn to32(bytes: &[u8]) -> [u8; 32] {
 }
 
 #[wasm_bindgen]
-pub fn scalarmult(point_bytes: &[u8], scalar_bytes: &[u8]) -> Vec<u8> {
+pub fn scalarMultiply(point_bytes: &[u8], scalar_bytes: &[u8]) -> Vec<u8> {
     let compressed_point = CompressedEdwardsY::from_slice(point_bytes);
     let inpoint = compressed_point.decompress().unwrap();
 

@@ -5,7 +5,7 @@
 extern crate wasm_bindgen_test;
 use std::assert_eq;
 
-use curve25519_scalarmult_wasm::scalarmult;
+use curve25519_scalarmult_wasm::scalarMultiply;
 use wasm_bindgen_test::*;
 
 wasm_bindgen_test_configure!(run_in_browser);
@@ -31,6 +31,6 @@ fn pass() {
         0x0f, 0xa2,
     ];
 
-    let actual = scalarmult(&point_hex, &scalar_hex);
+    let actual = scalarMultiply(&point_hex, &scalar_hex);
     assert_eq!(actual, expected);
 }
