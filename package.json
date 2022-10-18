@@ -1,6 +1,6 @@
 {
   "name": "@railgun-community/curve25519-scalarmult-wasm",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Curve25519 scalar multiplication in WASM",
   "author": "RAILGUN Contributors",
   "license": "MIT",
