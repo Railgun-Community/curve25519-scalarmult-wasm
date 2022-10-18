@@ -1,0 +1,35 @@
+{
+  "name": "curve25519-scalarmult-wasm",
+  "version": "0.1.0",
+  "description": "Curve25519 scalar multiplication in WASM",
+  "author": "RAILGUN Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Railgun-Community/curve25519-scalarmult-wasm.git"
+  },
+  "homepage": "https://github.com/Railgun-Community/curve25519-scalarmult-wasm#readme",
+  "bugs": {
+    "url": "https://github.com/Railgun-Community/curve25519-scalarmult-wasm/issues"
+  },
+  "files": [
+    "pkg-cjs/curve25519_scalarmult_wasm_bg.wasm",
+    "pkg-cjs/curve25519_scalarmult_wasm_bg.wasm.d.ts",
+    "pkg-cjs/curve25519_scalarmult_wasm.js",
+    "pkg-cjs/curve25519_scalarmult_wasm.d.ts",
+    "pkg-esm/curve25519_scalarmult_wasm_bg.wasm",
+    "pkg-esm/curve25519_scalarmult_wasm_bg.wasm.d.ts",
+    "pkg-esm/curve25519_scalarmult_wasm.js",
+    "pkg-esm/curve25519_scalarmult_wasm.d.ts"
+  ],
+  "main": "pkg-cjs/curve25519_scalarmult_wasm.js",
+  "module": "pkg-esm/curve25519_scalarmult_wasm.js",
+  "types": "pkg-esm/curve25519_scalarmult_wasm.d.ts",
+  "scripts": {
+    "build:cjs": "wasm-pack build --target nodejs --out-dir pkg-cjs",
+    "build:esm": "wasm-pack build --target web --out-dir pkg-esm",
+    "build": "npm run build:cjs && npm run build:esm",
+    "test": "wasm-pack test --firefox --headless"
+  },
+  "sideEffects": false
+}
