@@ -60,3 +60,24 @@ fn throws_invalid_y_coordinate() -> Result<(), String> {
         return Err(String::from("Expected error in this case"));
     }
 }
+
+#[wasm_bindgen_test]
+fn throws_invalid_scalar_size() -> Result<(), String> {
+    let point_hex = [
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad,
+        0xbe, 0xef,
+    ];
+    let scalar_hex = [
+        0x01, 0x02, 0x03
+    ];
+
+    let actual = scalarMultiply(&point_hex, &scalar_hex);
+    if actual.is_err() {
+        let x: Error = actual.err().unwrap().into();
+        assert_eq!(x.message(), "invalid scalar size");
+        return Ok(());
+    } else {
+        return Err(String::from("Expected error in this case"));
+    }
+}

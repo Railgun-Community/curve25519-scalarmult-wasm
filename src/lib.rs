@@ -14,10 +14,9 @@ use wasm_bindgen::prelude::*;
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
-fn to32(bytes: &[u8]) -> [u8; 32] {
-    bytes
-        .try_into()
-        .expect("slice with incorrect length, expected 32")
+fn to32(bytes: &[u8]) -> Result<[u8; 32], JsValue> {
+    let bytes32: Result<[u8; 32], _> = bytes.try_into();
+    Ok(bytes32.map_err(|_| Error::new("invalid scalar size"))?)
 }
 
 #[wasm_bindgen]
@@ -27,7 +26,7 @@ pub fn scalarMultiply(point_bytes: &[u8], scalar_bytes: &[u8]) -> Result<Vec<u8>
         .decompress()
         .ok_or(Error::new("invalid y coordinate"))?;
 
-    let mut scalar_bytes = to32(scalar_bytes);
+    let mut scalar_bytes = to32(scalar_bytes)?;
     scalar_bytes.reverse();
     let scalar = Scalar::from_bytes_mod_order(scalar_bytes);
 
