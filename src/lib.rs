@@ -4,6 +4,7 @@ use curve25519_dalek::edwards::CompressedEdwardsY;
 use curve25519_dalek::edwards::EdwardsPoint;
 use curve25519_dalek::scalar::Scalar;
 use curve25519_dalek::traits::MultiscalarMul;
+use js_sys::Error;
 use std::convert::TryInto;
 use wasm_bindgen::prelude::*;
 
@@ -13,11 +14,6 @@ use wasm_bindgen::prelude::*;
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
-#[wasm_bindgen]
-extern "C" {
-    fn alert(s: &str);
-}
-
 fn to32(bytes: &[u8]) -> [u8; 32] {
     bytes
         .try_into()
@@ -25,9 +21,11 @@ fn to32(bytes: &[u8]) -> [u8; 32] {
 }
 
 #[wasm_bindgen]
-pub fn scalarMultiply(point_bytes: &[u8], scalar_bytes: &[u8]) -> Vec<u8> {
+pub fn scalarMultiply(point_bytes: &[u8], scalar_bytes: &[u8]) -> Result<Vec<u8>, JsValue> {
     let compressed_point = CompressedEdwardsY::from_slice(point_bytes);
-    let inpoint = compressed_point.decompress().unwrap();
+    let inpoint = compressed_point
+        .decompress()
+        .ok_or(Error::new("invalid y coordinate"))?;
 
     let mut scalar_bytes = to32(scalar_bytes);
     scalar_bytes.reverse();
@@ -36,5 +34,5 @@ pub fn scalarMultiply(point_bytes: &[u8], scalar_bytes: &[u8]) -> Vec<u8> {
     let outpoint = EdwardsPoint::multiscalar_mul([scalar], [inpoint]);
     let outpoint_bytes = outpoint.compress().to_bytes();
 
-    outpoint_bytes.to_vec()
+    Ok(outpoint_bytes.to_vec())
 }
