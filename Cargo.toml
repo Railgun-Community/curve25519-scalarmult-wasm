@@ -1,6 +1,6 @@
 [package]
 name = "curve25519-scalarmult-wasm"
-version = "0.1.0"
+version = "0.1.5"
 authors = ["RAILGUN Contributors"]
 edition = "2018"
 
